@@ -5,7 +5,7 @@ import axios from "axios";
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
-  const url = "https://fooddelivery-backend-7ncx.onrender.com/";
+  const url = "https://fooddelivery-backend-7ncx.onrender.com";
   const [token,setToken] = useState("")
   const [food_list,setFoodList] = useState([])
 
@@ -39,14 +39,15 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
-  const fetchFoodList = async ()=>{
-    const response = await axios.get(url+"/api/food/list");
-    setFoodList(response.data.data)
+  const fetchFoodList = async () => {
+  try {
+    const response = await axios.get(`${url}/api/food/list`);
+    console.log("Food API response:", response.data);
+    setFoodList(response.data.data);
+  } catch (error) {
+    console.log("Food fetch error:", error);
   }
-  const loadCartData = async (token)=>{
-    const response = await axios.post(url+"/api/cart/get",{},{headers:{token}})
-    setCartItems(response.data.cartData);
-  }
+ };
   useEffect(()=>{
     async function loadData(){
       await fetchFoodList()
