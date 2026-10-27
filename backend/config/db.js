@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-    await mongoose.connect("mongodb+srv://varshapandey2136_db_user:T7UqzcPAk3VeAH80@cluster0.r8xazhe.mongodb.net/FoodDelivery')");
-
-    console.log("DB Connected");
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("DB Connected");
+    } catch (error) {
+        console.error("DB connection failed:", error.message);
+        process.exit(1);
+    }
 };
 
 
